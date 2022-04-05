@@ -25,55 +25,44 @@ class _MonthPageState extends State<MonthPage> {
     'Dec'
   ];
 
-  double topPaddingValue = 25, monthFontSize = 30, dayFontSize = 20;
+  List<String> dayTitle = [
+    'Su',
+    'Mo',
+    'Tu',
+    'We',
+    'Th',
+    'Fr',
+    'Sa',
+  ];
+
+  double gridItemPaddingLeft = 10, gridItemPaddingTop = 25, monthFontSize = 30, dayFontSize = 20;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            backgroundColor: const Color.fromRGBO(104, 146, 255, 24),
-            centerTitle: true,
-            title: Text(monthTitle[widget.month] + ' ' + widget.year.toString(), style: TextStyle(fontSize: monthFontSize))
-        ),
+      appBar: AppBar(
+          backgroundColor: const Color.fromRGBO(104, 146, 255, 24),
+          centerTitle: true,
+          title: Text(monthTitle[widget.month] + ' ' + widget.year.toString(),
+              style: TextStyle(fontSize: monthFontSize))
+      ),
 
-        body: Column(
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-
-              children: [
-                Container(
-                  padding: EdgeInsets.only(top: topPaddingValue),
-                  child: Text('Su', style: TextStyle(color: Colors.white, fontSize: dayFontSize),),
-                ),
-                Container(
-                  padding: EdgeInsets.only(top: topPaddingValue),
-                  child:  Text('Mo', style: TextStyle(color: Colors.white, fontSize: dayFontSize),),
-                ),
-                Container(
-                  padding: EdgeInsets.only(top: topPaddingValue),
-                  child:  Text('Tu', style: TextStyle(color: Colors.white, fontSize: dayFontSize),),
-                ),
-                Container(
-                  padding: EdgeInsets.only(top: topPaddingValue),
-                  child:  Text('We', style: TextStyle(color: Colors.white, fontSize: dayFontSize),),
-                ),
-                Container(
-                  padding: EdgeInsets.only(top: topPaddingValue),
-                  child:  Text('Th', style: TextStyle(color: Colors.white, fontSize: dayFontSize),),
-                ),
-                Container(
-                  padding: EdgeInsets.only(top: topPaddingValue),
-                  child:  Text('Fr', style: TextStyle(color: Colors.white, fontSize: dayFontSize),),
-                ),
-                Container(
-                  padding: EdgeInsets.only(top: topPaddingValue),
-                  child:  Text('Sa', style: TextStyle(color: Colors.white, fontSize: dayFontSize),),
-                ),
-            ]),
-
-          ],
-        )
+      body: GridView.builder(
+          itemCount: 7,
+          itemBuilder: (context, i) {
+            return Container(
+              padding: EdgeInsets.only(left: gridItemPaddingLeft,top: gridItemPaddingTop),
+              child: Text(dayTitle[i],
+                style: TextStyle(color: Colors.white, fontSize: dayFontSize),),
+            );
+          },
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount (
+            crossAxisCount: 7,
+            childAspectRatio: 1,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+          )
+      ),
     );
   }
 }
