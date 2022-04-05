@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 class MonthPage extends StatefulWidget {
@@ -48,12 +50,25 @@ class _MonthPageState extends State<MonthPage> {
       ),
 
       body: GridView.builder(
-          itemCount: 7,
+          itemCount: 42,
           itemBuilder: (context, i) {
-            return Container(
-              padding: EdgeInsets.only(left: gridItemPaddingLeft,top: gridItemPaddingTop),
-              child: Text(dayTitle[i],
-                style: TextStyle(color: Colors.white, fontSize: dayFontSize),),
+            if (i < 7) {
+              return Container(
+                padding: EdgeInsets.only(left: gridItemPaddingLeft,top: gridItemPaddingTop),
+                child: Text(dayTitle[i],
+                  style: TextStyle(color: Colors.white, fontSize: dayFontSize),),
+              );
+            }
+
+            return ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(
+                minimumSize: const Size(50, 20),
+              ),
+              icon: const Icon(Icons.arrow_forward, size: 1),
+              label: const Text('Item',
+                style: TextStyle(color: Colors.white, fontSize: 5)
+              ),
+              onPressed: () => {},
             );
           },
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount (
