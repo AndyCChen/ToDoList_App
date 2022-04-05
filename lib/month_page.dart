@@ -25,7 +25,7 @@ class _MonthPageState extends State<MonthPage> {
     'Dec'
   ];
 
-  double topPaddingValue = 25, monthFontSize = 30;
+  double topPaddingValue = 25, monthFontSize = 30, dayFontSize = 20;
 
   @override
   Widget build(BuildContext context) {
@@ -36,40 +36,42 @@ class _MonthPageState extends State<MonthPage> {
             title: Text(monthTitle[widget.month] + ' ' + widget.year.toString(), style: TextStyle(fontSize: monthFontSize))
         ),
 
-        backgroundColor: const Color.fromRGBO(68, 68, 68, 1),
-
-        body: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-
+        body: Column(
           children: <Widget>[
-            Container(
-              padding: EdgeInsets.only(top: topPaddingValue),
-              child: const Text('Su', style: TextStyle(color: Colors.white),),
-            ),
-            Container(
-              padding: EdgeInsets.only(top: topPaddingValue),
-              child: const Text('Mo', style: TextStyle(color: Colors.white),),
-            ),
-            Container(
-              padding: EdgeInsets.only(top: topPaddingValue),
-              child: const Text('Tu', style: TextStyle(color: Colors.white),),
-            ),
-            Container(
-              padding: EdgeInsets.only(top: topPaddingValue),
-              child: const Text('We', style: TextStyle(color: Colors.white),),
-            ),
-            Container(
-              padding: EdgeInsets.only(top: topPaddingValue),
-              child: const Text('Th', style: TextStyle(color: Colors.white),),
-            ),
-            Container(
-              padding: EdgeInsets.only(top: topPaddingValue),
-              child: const Text('Fr', style: TextStyle(color: Colors.white),),
-            ),
-            Container(
-              padding: EdgeInsets.only(top: topPaddingValue),
-              child: const Text('Sa', style: TextStyle(color: Colors.white),),
-            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
+              children: [
+                Container(
+                  padding: EdgeInsets.only(top: topPaddingValue),
+                  child: Text('Su', style: TextStyle(color: Colors.white, fontSize: dayFontSize),),
+                ),
+                Container(
+                  padding: EdgeInsets.only(top: topPaddingValue),
+                  child:  Text('Mo', style: TextStyle(color: Colors.white, fontSize: dayFontSize),),
+                ),
+                Container(
+                  padding: EdgeInsets.only(top: topPaddingValue),
+                  child:  Text('Tu', style: TextStyle(color: Colors.white, fontSize: dayFontSize),),
+                ),
+                Container(
+                  padding: EdgeInsets.only(top: topPaddingValue),
+                  child:  Text('We', style: TextStyle(color: Colors.white, fontSize: dayFontSize),),
+                ),
+                Container(
+                  padding: EdgeInsets.only(top: topPaddingValue),
+                  child:  Text('Th', style: TextStyle(color: Colors.white, fontSize: dayFontSize),),
+                ),
+                Container(
+                  padding: EdgeInsets.only(top: topPaddingValue),
+                  child:  Text('Fr', style: TextStyle(color: Colors.white, fontSize: dayFontSize),),
+                ),
+                Container(
+                  padding: EdgeInsets.only(top: topPaddingValue),
+                  child:  Text('Sa', style: TextStyle(color: Colors.white, fontSize: dayFontSize),),
+                ),
+            ]),
+
           ],
         )
     );
