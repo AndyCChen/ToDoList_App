@@ -1,6 +1,5 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
+import 'package:dotted_border/dotted_border.dart';
 
 class MonthPage extends StatefulWidget {
   final int month, year;
@@ -37,7 +36,7 @@ class _MonthPageState extends State<MonthPage> {
     'Sa',
   ];
 
-  double gridItemPaddingLeft = 10, gridItemPaddingTop = 25, monthFontSize = 30, dayFontSize = 20;
+  double gridItemPaddingLeftAndRight = 10, gridItemPaddingTopBottom = 30, monthFontSize = 30, dayFontSize = 20;
 
   @override
   Widget build(BuildContext context) {
@@ -54,28 +53,35 @@ class _MonthPageState extends State<MonthPage> {
           itemBuilder: (context, i) {
             if (i < 7) {
               return Container(
-                padding: EdgeInsets.only(left: gridItemPaddingLeft,top: gridItemPaddingTop),
+                padding: EdgeInsets.only(right: gridItemPaddingLeftAndRight, left: gridItemPaddingLeftAndRight, top: gridItemPaddingTopBottom, bottom: gridItemPaddingTopBottom),
                 child: Text(dayTitle[i],
                   style: TextStyle(color: Colors.white, fontSize: dayFontSize),),
               );
             }
 
-            return ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(
-                minimumSize: const Size(50, 20),
-              ),
-              icon: const Icon(Icons.arrow_forward, size: 1),
-              label: const Text('Item',
-                style: TextStyle(color: Colors.white, fontSize: 5)
-              ),
-              onPressed: () => {},
+            return Container(
+              margin: const EdgeInsets.only(left: 5, right: 5),
+              child: DottedBorder(
+                color: Colors.white,
+                strokeWidth: 1,
+                child: Center(
+                  child: TextButton(
+                    onPressed: () {},
+                    child: const Text('1'),
+                    style: TextButton.styleFrom(
+                      minimumSize: const Size(double.infinity,  double.infinity),
+                    ),
+                  )
+                )
+              )
             );
           },
+
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount (
             crossAxisCount: 7,
-            childAspectRatio: 1,
+            childAspectRatio: 0.6,
             crossAxisSpacing: 10,
-            mainAxisSpacing: 10,
+            mainAxisSpacing: 15,
           )
       ),
     );
