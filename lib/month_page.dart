@@ -62,6 +62,9 @@ class _MonthPageState extends State<MonthPage> {
             return Container(
               margin: const EdgeInsets.only(left: 5, right: 5),
               child: DottedBorder(
+                borderType: BorderType.RRect,
+                radius: const Radius.circular(10),
+                dashPattern: const [5, 5],
                 color: Colors.white,
                 strokeWidth: 1,
                 child: Center(
