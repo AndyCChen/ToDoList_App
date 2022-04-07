@@ -1,5 +1,7 @@
+
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
-import 'package:dotted_border/dotted_border.dart';
 
 class MonthPage extends StatefulWidget {
   final int month, year;
@@ -36,7 +38,7 @@ class _MonthPageState extends State<MonthPage> {
     'Sa',
   ];
 
-  double gridItemPaddingLeftAndRight = 10, gridItemPaddingTopBottom = 30, monthFontSize = 30, dayFontSize = 20;
+  double rowPaddingValue = 15, monthFontSize = 30, dayFontSize = 20;
 
   @override
   Widget build(BuildContext context) {
@@ -48,45 +50,44 @@ class _MonthPageState extends State<MonthPage> {
               style: TextStyle(fontSize: monthFontSize))
       ),
 
-      body: GridView.builder(
-          itemCount: 42,
-          itemBuilder: (context, i) {
-            if (i < 7) {
-              return Container(
-                padding: EdgeInsets.only(right: gridItemPaddingLeftAndRight, left: gridItemPaddingLeftAndRight, top: gridItemPaddingTopBottom, bottom: gridItemPaddingTopBottom),
-                child: Text(dayTitle[i],
-                  style: TextStyle(color: Colors.white, fontSize: dayFontSize),),
-              );
-            }
-
-            return Container(
-              margin: const EdgeInsets.only(left: 5, right: 5),
-              child: DottedBorder(
-                borderType: BorderType.RRect,
-                radius: const Radius.circular(10),
-                dashPattern: const [5, 5],
-                color: Colors.white,
-                strokeWidth: 1,
-                child: Center(
-                  child: TextButton(
-                    onPressed: () {},
-                    child: const Text('1'),
-                    style: TextButton.styleFrom(
-                      minimumSize: const Size(double.infinity,  double.infinity),
-                    ),
-                  )
+      body: Column (children: <Widget>[
+        GridView.count(
+            crossAxisCount: 7,
+            shrinkWrap: true,
+            children: [
+              for (var day in dayTitle) Center(
+                child: Text(day,
+                  style: TextStyle(
+                    fontSize: dayFontSize,
+                    color: Colors.white),
                 )
-              )
+              ),
+            ],
+        ),
+        GridView.builder(
+          itemCount: 42,
+          shrinkWrap: true,
+          itemBuilder: (context, i) {
+            return TextButton(
+              onPressed: () {},
+              child: const Text('1'),
+              style: TextButton.styleFrom(
+                minimumSize: const Size(double.infinity,  double.infinity),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                primary: Colors.white,
+                backgroundColor: const Color.fromRGBO(157, 208, 255, 1.0),
+              ),
             );
           },
-
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount (
             crossAxisCount: 7,
-            childAspectRatio: 0.6,
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 15,
+            crossAxisSpacing: 5.0,
+            mainAxisSpacing: 5.0,
           )
-      ),
+        ),
+      ])
     );
   }
 }
