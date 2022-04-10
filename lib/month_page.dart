@@ -1,6 +1,3 @@
-
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
 class MonthPage extends StatefulWidget {
@@ -52,17 +49,17 @@ class _MonthPageState extends State<MonthPage> {
 
       body: Column (children: <Widget>[
         GridView.count(
-            crossAxisCount: 7,
-            shrinkWrap: true,
-            children: [
-              for (var day in dayTitle) Center(
-                child: Text(day,
-                  style: TextStyle(
-                    fontSize: dayFontSize,
-                    color: Colors.white),
-                )
-              ),
-            ],
+          crossAxisCount: 7,
+          shrinkWrap: true,
+          children: [
+            for (var day in dayTitle) Center(
+              child: Text(day,
+                style: TextStyle(
+                  fontSize: dayFontSize,
+                  color: Colors.white),
+              )
+            ),
+          ],
         ),
         GridView.builder(
           itemCount: 42,
@@ -70,21 +67,35 @@ class _MonthPageState extends State<MonthPage> {
           itemBuilder: (context, i) {
             return TextButton(
               onPressed: () {},
-              child: const Text('1'),
+              child: Stack(
+                children: const <Widget>[
+                  Align(
+                    alignment: Alignment.center,
+                    child: Icon(Icons.add,
+                      color: Color.fromRGBO(157, 208, 255, 1.0),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: Text('1'),
+                  )
+                ],
+              ),
               style: TextButton.styleFrom(
                 minimumSize: const Size(double.infinity,  double.infinity),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 primary: Colors.white,
-                backgroundColor: const Color.fromRGBO(157, 208, 255, 1.0),
+                backgroundColor: Colors.white10,
               ),
             );
           },
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount (
             crossAxisCount: 7,
-            crossAxisSpacing: 5.0,
-            mainAxisSpacing: 5.0,
+            childAspectRatio: 0.6,
+            crossAxisSpacing: 8.0,
+            mainAxisSpacing: 10.0,
           )
         ),
       ])
