@@ -37,13 +37,15 @@ class _MonthPageState extends State<MonthPage> {
 
   double rowPaddingValue = 15, monthFontSize = 30, dayFontSize = 20;
 
+  int firstDay = 5;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
           backgroundColor: const Color.fromRGBO(104, 146, 255, 24),
           centerTitle: true,
-          title: Text(monthTitle[widget.month] + ' ' + widget.year.toString(),
+          title: Text(monthTitle[widget.month - 1] + ' ' + widget.year.toString(),
               style: TextStyle(fontSize: monthFontSize))
       ),
 
@@ -65,30 +67,33 @@ class _MonthPageState extends State<MonthPage> {
           itemCount: 42,
           shrinkWrap: true,
           itemBuilder: (context, i) {
-            return TextButton(
-              onPressed: () {},
-              child: Stack(
-                children: const <Widget>[
-                  Align(
-                    alignment: Alignment.center,
-                    child: Icon(Icons.add,
-                      color: Color.fromRGBO(157, 208, 255, 1.0),
+            return Visibility(
+              visible: (i < firstDay) ? false : true,
+              child: TextButton(
+                onPressed: (i < firstDay) ? null : () {},
+                child: Stack(
+                  children: <Widget>[
+                    const Align(
+                      alignment: Alignment.center,
+                      child: Icon(Icons.add,
+                        color: Color.fromRGBO(157, 208, 255, 1.0),
+                      ),
                     ),
-                  ),
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: Text('1'),
-                  )
-                ],
-              ),
-              style: TextButton.styleFrom(
-                minimumSize: const Size(double.infinity,  double.infinity),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: Text(_getDayNumber(i).toString()),
+                    )
+                  ],
                 ),
-                primary: Colors.white,
-                backgroundColor: Colors.white10,
-              ),
+                style: TextButton.styleFrom(
+                  minimumSize: const Size(double.infinity,  double.infinity),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  primary: Colors.white,
+                  backgroundColor: Colors.white10,
+                ),
+              )
             );
           },
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount (
@@ -100,5 +105,9 @@ class _MonthPageState extends State<MonthPage> {
         ),
       ])
     );
+  }
+
+  int _getDayNumber(int i) {
+    return i - (firstDay -1);
   }
 }
