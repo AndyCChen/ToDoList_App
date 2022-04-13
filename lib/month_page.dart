@@ -37,10 +37,14 @@ class _MonthPageState extends State<MonthPage> {
 
   double rowPaddingValue = 15, monthFontSize = 30, dayFontSize = 20;
 
-  int firstDay = 5;
-
   @override
   Widget build(BuildContext context) {
+    var firstDay = _calculateFirstDay(widget.month, widget.year);
+
+    int _getDayNumber(int i) {
+      return i - (firstDay - 1);
+    }
+
     return Scaffold(
       appBar: AppBar(
           backgroundColor: const Color.fromRGBO(104, 146, 255, 24),
@@ -64,13 +68,13 @@ class _MonthPageState extends State<MonthPage> {
           ],
         ),
         GridView.builder(
-          itemCount: 42,
+          itemCount: _getMaxDaysOfMonth(widget.month, widget.year) + firstDay,
           shrinkWrap: true,
           itemBuilder: (context, i) {
             return Visibility(
               visible: (i < firstDay) ? false : true,
               child: TextButton(
-                onPressed: (i < firstDay) ? null : () {},
+                onPressed: (i < firstDay) ? null : () {print(firstDay.toString());},
                 child: Stack(
                   children: <Widget>[
                     const Align(
@@ -96,7 +100,7 @@ class _MonthPageState extends State<MonthPage> {
               )
             );
           },
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount (
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 7,
             childAspectRatio: 0.6,
             crossAxisSpacing: 8.0,
@@ -107,7 +111,36 @@ class _MonthPageState extends State<MonthPage> {
     );
   }
 
-  int _getDayNumber(int i) {
-    return i - (firstDay -1);
+  int _getMaxDaysOfMonth(int month, int year) {
+    bool isLeapYear = false;
+
+    List<int> daysInEachMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+    if (year % 100 == 0)
+    {
+      if (year % 400 == 0)
+      {
+        isLeapYear = true;
+      }
+    }
+    else if (year % 4 == 0)
+    {
+      isLeapYear = true;
+    }
+
+    return (isLeapYear && month == 2) ? daysInEachMonth[1] + 1 : daysInEachMonth[month - 1];
+  }
+
+  int _calculateFirstDay(int month, int year) {
+    num a = (14 - month) / 12;
+    num y = year - a.floor();
+    num m = month + (12 * a.floor()) - 2;
+    num d = (1 + y + (y / 4).floor()  - (y / 100).floor() + (y / 400).floor() + ((31 * m) / 12).floor()).remainder(7);
+    print(a.toInt());
+    print(y.toInt());
+    print(m.toInt());
+    print(d);
+
+    return d.floor();
   }
 }

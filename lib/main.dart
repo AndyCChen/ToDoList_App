@@ -17,7 +17,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(fontFamily: 'MedievalSharp', scaffoldBackgroundColor: const Color.fromRGBO(68, 68, 68, 1)),
-      home: const MonthPage(month: 8, year: 2022)
+      home: const MonthPage(month: 4, year: 2022)
     );
   }
 }
