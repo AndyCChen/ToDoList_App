@@ -1,23 +1,18 @@
 import 'package:flutter/material.dart';
-import 'month_page.dart';
+import 'home_page.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(fontFamily: 'MedievalSharp', scaffoldBackgroundColor: const Color.fromRGBO(68, 68, 68, 1)),
-      home: const MonthPage(month: 4, year: 2022)
+      home: const HomePage(),
     );
   }
 }
