@@ -8,17 +8,12 @@ const Map<TabItem, String> tabName = {
   TabItem.tomorrow: 'tomorrow',
 };
 
-const Map<TabItem, Color> activeTabColor = {
-  TabItem.today: Color.fromRGBO(255, 72, 72, 1.0),
-  TabItem.tomorrow: Color.fromRGBO(255, 72, 72, 1.0),
-};
-
 Map<TabItem, String> tabDate = {
   TabItem.today: DateFormat.yMMMd().format(DateTime.now()),
   TabItem.tomorrow: DateFormat.yMMMd().format(DateTime.now().add(const Duration(days: 1))),
 };
 
 Map<TabItem, Icon> tabIcon = {
-  TabItem.today: const Icon(Icons.today),
-  TabItem.tomorrow: const Icon(Icons.arrow_forward),
+  TabItem.today: const Icon(Icons.today, color: Color.fromRGBO(255, 72, 72, 1.0),),
+  TabItem.tomorrow: const Icon(Icons.arrow_forward, color: Color.fromRGBO(255, 72, 72, 1.0),),
 };
