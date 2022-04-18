@@ -1,27 +1,29 @@
 import 'package:flutter/material.dart';
+import 'tab_item.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class App extends StatefulWidget {
+  const App({Key? key}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _AppState createState() => _AppState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _AppState extends State<App> {
   int _selectedIndex = 0;
+
+  var _currentTab = TabItem.today;
+
+  void _selectTab (TabItem tabItem) {
+    setState(() {
+      _currentTab = tabItem;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     void _setNavigationBarState(int index) {
       setState(() {
         _selectedIndex = index;
-
-        if (_selectedIndex == 0) {
-          Navigator.pushNamed(context, '/W1');
-        }
-        else {
-          Navigator.pushNamed(context, '/W2');
-        }
       });
     }
 
