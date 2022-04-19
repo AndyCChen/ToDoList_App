@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-class DayScreens extends StatefulWidget {
+class TodoListPage extends StatefulWidget {
+  const TodoListPage({Key? key, required this.date}) : super(key: key);
+
   final String date;
-  final String widgetName;
-  const DayScreens({Key? key, required this.date, required this.widgetName}) : super(key: key);
 
   @override
-  _DayScreensState createState() => _DayScreensState();
+  _TodoListPageState createState() => _TodoListPageState();
 }
 
-class _DayScreensState extends State<DayScreens> {
+class _TodoListPageState extends State<TodoListPage> {
 
   @override
   Widget build(BuildContext context) {
