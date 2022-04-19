@@ -4,8 +4,8 @@ import 'package:intl/intl.dart';
 enum TabItem {today, tomorrow}
 
 const Map<TabItem, String> tabName = {
-  TabItem.today: 'today',
-  TabItem.tomorrow: 'tomorrow',
+  TabItem.today: 'Today',
+  TabItem.tomorrow: 'Tomorrow',
 };
 
 Map<TabItem, String> tabDate = {
@@ -14,6 +14,6 @@ Map<TabItem, String> tabDate = {
 };
 
 Map<TabItem, Icon> tabIcon = {
-  TabItem.today: const Icon(Icons.today, color: Color.fromRGBO(255, 72, 72, 1.0),),
-  TabItem.tomorrow: const Icon(Icons.arrow_forward, color: Color.fromRGBO(255, 72, 72, 1.0),),
+  TabItem.today: const Icon(Icons.today,),
+  TabItem.tomorrow: const Icon(Icons.arrow_forward,),
 };
