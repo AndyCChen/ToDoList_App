@@ -16,6 +16,7 @@ class CustomNavigationBar extends StatelessWidget {
       ],
       currentIndex: currentTab.index,
       selectedItemColor: const Color.fromRGBO(255, 72, 72, 1.0),
+      selectedFontSize: 15.0,
       onTap: (index) => selectedTab(
         TabItem.values[index],
       ),
