@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 class TaskPage extends StatefulWidget {
@@ -25,7 +27,7 @@ class _TaskPageState extends State<TaskPage> {
                         Navigator.pop(context);
                       },
                       borderRadius: BorderRadius.circular(30.0),
-                      hoverColor: Colors.blue,
+                      splashColor: const Color.fromRGBO(157, 208, 255, 0.76),
                       child: const Padding(
                         padding: EdgeInsets.all(20.0),
                         child: Icon(
@@ -34,7 +36,42 @@ class _TaskPageState extends State<TaskPage> {
                         ),
                       ),
                     ),
+                    const Expanded(
+                      child: TextField(
+                        decoration: InputDecoration(
+                          hintStyle: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 24.0
+                          ),
+                          hintText: "Title",
+                          border: InputBorder.none,
+                          counterText: '',
+                        ),
+                        style: TextStyle(
+                          fontSize: 24.0,
+                          color: Colors.white,
+                        ),
+                        maxLength: 25,
+                      ),
+                    ),
                   ],
+                ),
+              ),
+              const TextField(
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(
+                    horizontal: 20.0,
+                  ),
+                  hintStyle: TextStyle(
+                    fontSize: 18.0,
+                  color: Colors.grey,
+                  ),
+                  hintText: "Description",
+                  border: InputBorder.none,
+                ),
+                style: TextStyle(
+                  fontSize: 18.0,
+                  color: Colors.white,
                 ),
               ),
             ],
