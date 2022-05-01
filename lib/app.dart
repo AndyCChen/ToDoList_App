@@ -37,7 +37,9 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(children: <Widget>[
+      body: IndexedStack(
+        index: tabIndex[_currentTab],
+        children: <Widget>[
         _buildNavigator(TabItem.today),
         _buildNavigator(TabItem.tomorrow),
       ]),

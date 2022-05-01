@@ -17,3 +17,8 @@ Map<TabItem, Icon> tabIcon = {
   TabItem.today: const Icon(Icons.today,),
   TabItem.tomorrow: const Icon(Icons.arrow_forward,),
 };
+
+Map<TabItem, int> tabIndex = {
+  TabItem.today : 0,
+  TabItem.tomorrow : 1,
+};

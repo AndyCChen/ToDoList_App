@@ -14,7 +14,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
           fontFamily: 'MedievalSharp',
-          scaffoldBackgroundColor: const Color.fromRGBO(68, 68, 68, 1)),
+          scaffoldBackgroundColor: const Color.fromRGBO(
+              68, 68, 68, 1.0)),
       home: const App(),
     );
   }
