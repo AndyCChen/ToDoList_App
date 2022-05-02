@@ -37,9 +37,12 @@ class _TaskPageState extends State<TaskPage> {
                           ),
                         ),
                       ),
-                      const Expanded(
+                      Expanded(
                         child: TextField(
-                          decoration: InputDecoration(
+                          onSubmitted: (value) {
+                            print("String: $value");
+                          },
+                          decoration: const InputDecoration(
                             hintStyle: TextStyle(
                                 color: Colors.grey,
                                 fontSize: 24.0
@@ -48,7 +51,7 @@ class _TaskPageState extends State<TaskPage> {
                             border: InputBorder.none,
                             counterText: '',
                           ),
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 24.0,
                             color: Colors.white,
                           ),
@@ -88,11 +91,11 @@ class _TaskPageState extends State<TaskPage> {
                   width: 55.0,
                   height: 55.0,
                   decoration: BoxDecoration(
-                      color: Color.fromRGBO(255, 72, 72, 1.0),
+                      color: const Color.fromRGBO(255, 72, 72, 1.0),
                       borderRadius: BorderRadius.circular(30.0)
                   ),
                   child: const Icon(
-                    Icons.delete,
+                    Icons.delete_forever_rounded,
                     color: Colors.white,
                     size: 30.0,
                   ),
