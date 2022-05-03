@@ -154,7 +154,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             errorMessage = _getErrorMessage(e.code);
                           });
                         } else if (e.code == 'weak-password') {
-                          isPasswordValid = false;
+                          isSignUpPasswordValid = false;
                           setState(() {
                             errorMessage = _getErrorMessage(e.code);
                           });
@@ -173,11 +173,14 @@ class _LoginScreenState extends State<LoginScreen> {
                           });
                         }
                       }
-                      if(isSignUpEmailValid && isPasswordValid) {
+                      if(isSignUpEmailValid && isSignUpPasswordValid) {
                         Navigator.of(context).pushReplacement(
                             MaterialPageRoute(builder: (context) => const App()
                             )
                         );
+                      } else {
+                        isSignUpEmailValid = true;
+                        isSignUpPasswordValid = true;
                       }
                     },
                     style: TextButton.styleFrom(
@@ -232,6 +235,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             MaterialPageRoute(builder: (context) => const App()
                             )
                         );
+                      } else {
+                        isEmailValid = true;
+                        isPasswordValid = true;
                       }
                     },
                     style: TextButton.styleFrom(
