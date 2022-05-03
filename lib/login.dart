@@ -10,8 +10,35 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  late String _email, _password;
-  final auth  = FirebaseAuth.instance;
+  late String _email, _password, errorMessage  = '';
+  bool isEmailValid = true, isPasswordValid = true;
+  bool isSignUpEmailValid = true, isSignUpPasswordValid = true;
+
+  String _getErrorMessage(String errorCode) {
+    switch (errorCode) {
+      case 'user-not-found': {
+        return 'Invalid Email';
+      }
+      case 'wrong-password': {
+        return 'Invalid Password';
+      }
+      case 'invalid-email' : {
+        return 'Invalid Email';
+      }
+      case 'too-many-requests' : {
+        return 'Login Timeout';
+      }
+      case 'email-already-in-use' : {
+        return 'Email already in use';
+      }
+      case 'weak-password': {
+        return 'Weak Password';
+      }
+      default: {
+        return 'Enter Email and Password';
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   'Login',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 24.0,
+                    fontSize: 30.0,
                   ),
                 ),
               ),
@@ -53,6 +80,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: TextField(
                     keyboardType: TextInputType.emailAddress,
                     style: const TextStyle(
+                      fontSize: 18.0,
                       color: Colors.white,
                     ),
                     decoration: const InputDecoration(
@@ -85,10 +113,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: TextField(
                     obscureText: true,
                     style: const TextStyle(
+                      fontSize: 18.0,
                       color: Colors.white,
                     ),
                     decoration: const InputDecoration(
-                      hintText: 'Password',
+                      hintText:'Password',
                       border: InputBorder.none,
                       hintStyle: TextStyle(
                         color: Colors.grey,
@@ -105,24 +134,60 @@ class _LoginScreenState extends State<LoginScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  ElevatedButton(
+                  ElevatedButton (
                     child: const Text(
                         'Sign Up',
                         style: TextStyle(
                           color: Colors.white,
                         ),
                       ),
-                    onPressed: (){
-                      auth.createUserWithEmailAndPassword(
+                    onPressed: () async {
+                      try {
+                        final auth = await FirebaseAuth.instance.createUserWithEmailAndPassword(
                           email: _email,
-                          password: _password);
-                      Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(
-                            builder: (context) => App())
-                      );
+                          password: _password,
+                        );
+                      } on FirebaseAuthException catch (e) {
+                        if (e.code == 'email-already-in-use') {
+                          isSignUpEmailValid = false;
+                          setState(() {
+                            errorMessage = _getErrorMessage(e.code);
+                          });
+                        } else if (e.code == 'weak-password') {
+                          isPasswordValid = false;
+                          setState(() {
+                            errorMessage = _getErrorMessage(e.code);
+                          });
+                        }
+                        else if (e.code =='invalid-email') {
+                          isSignUpEmailValid = false;
+                          setState(() {
+                            errorMessage = _getErrorMessage(e.code);
+                          });
+                        }
+                        else {
+                          isPasswordValid = false;
+                          isSignUpEmailValid = false;
+                          setState(() {
+                            errorMessage = _getErrorMessage(e.code);
+                          });
+                        }
+                      }
+                      if(isSignUpEmailValid && isPasswordValid) {
+                        Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(builder: (context) => const App()
+                            )
+                        );
+                      }
                     },
                     style: TextButton.styleFrom(
                       backgroundColor: const Color.fromRGBO(104, 146, 255, 0.76),
+                    ),
+                  ),
+                  Text (
+                    errorMessage,
+                    style: const TextStyle(
+                      color: Colors.redAccent,
                     ),
                   ),
                   ElevatedButton(
@@ -132,14 +197,42 @@ class _LoginScreenState extends State<LoginScreen> {
                         color: Colors.white,
                       ),
                     ),
-                    onPressed: (){
-                      auth.signInWithEmailAndPassword(
-                          email: _email,
-                          password: _password);
-                      Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(
-                              builder: (context) => App())
-                      );
+                    onPressed: () async {
+                      try {
+                        final auth = await FirebaseAuth.instance.signInWithEmailAndPassword(
+                            email: _email,
+                            password: _password
+                        );
+                      } on FirebaseAuthException catch (e) {
+                        if (e.code == 'user-not-found') {
+                          isEmailValid = false;
+                          setState(() {
+                            errorMessage =_getErrorMessage(e.code);
+                          });
+                        } else if (e.code == 'wrong-password') {
+                          setState(() {
+                            errorMessage =_getErrorMessage(e.code);
+                          });
+                          isPasswordValid = false;
+                        } else if (e.code =='invalid-email'){
+                          isEmailValid = false;
+                          setState(() {
+                            errorMessage = _getErrorMessage(e.code);
+                          });
+                        } else {
+                          setState(() {
+                            errorMessage =_getErrorMessage(e.code);
+                          });
+                          isEmailValid = false;
+                          isPasswordValid = false;
+                        }
+                      }
+                      if(isEmailValid && isPasswordValid) {
+                        Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(builder: (context) => const App()
+                            )
+                        );
+                      }
                     },
                     style: TextButton.styleFrom(
                       backgroundColor: const Color.fromRGBO(104, 146, 255, 0.76),

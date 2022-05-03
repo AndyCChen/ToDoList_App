@@ -27,7 +27,7 @@ class TabNavigator extends StatelessWidget {
 
   Map<String, WidgetBuilder> _routeBuilder(BuildContext context) {
     return {
-      TabNavigationRoutes.root : (context) => TodoListPage(date: tabDate[tabItem].toString()),
+      TabNavigationRoutes.root : (context) => const TodoListPage(),
     };
   }
 
