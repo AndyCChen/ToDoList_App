@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class TaskPage extends StatefulWidget {
-  const TaskPage({Key? key}) : super(key: key);
+  const TaskPage({Key? key, required this.deleteItem}) : super(key: key);
+
+  final VoidCallback deleteItem;
 
   @override
   _TaskPageState createState() => _TaskPageState();
@@ -86,7 +88,12 @@ class _TaskPageState extends State<TaskPage> {
               bottom: 25.0,
               right: 25.0,
               child: GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  setState(() {
+                    widget.deleteItem();
+                  });
+                  Navigator.pop(context);
+                },
                 child: Container(
                   width: 55.0,
                   height: 55.0,

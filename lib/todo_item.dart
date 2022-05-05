@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'tab_navigation.dart';
 
 class TodoItem extends StatefulWidget {
-  const TodoItem({Key? key, this.title, this.description}) : super(key: key);
+  const TodoItem({Key? key, this.title, this.description, required this.onPush}) : super(key: key);
   final String? title;
   final String? description;
-
+  final OnPush onPush;
 
   @override
   State<TodoItem> createState() => _TodoItemState();
@@ -21,6 +22,12 @@ class _TodoItemState extends State<TodoItem> {
       else {
         isDone = true;
       }
+    });
+  }
+
+  void _push() {
+    setState(() {
+      widget.onPush(context);
     });
   }
 
@@ -52,43 +59,46 @@ class _TodoItemState extends State<TodoItem> {
           ),
         ),
         Expanded(
-          child: Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(
-              vertical: 25.0,
-              horizontal: 20.0,
-            ),
-            margin: const EdgeInsets.only(
-              bottom: 10.0,
-            ),
-            decoration: BoxDecoration(
-              color: const Color.fromRGBO(101, 101, 101, 1.0),
-              borderRadius: BorderRadius.circular(15.0),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  widget.title?? "(Unnamed task)",
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 22.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: 10.0,
-                  ),
-                  child: Text(
-                    widget.description?? "Insert task description here",
+          child: GestureDetector(
+            onTap: _push,
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(
+                vertical: 25.0,
+                horizontal: 20.0,
+              ),
+              margin: const EdgeInsets.only(
+                bottom: 10.0,
+              ),
+              decoration: BoxDecoration(
+                color: const Color.fromRGBO(101, 101, 101, 1.0),
+                borderRadius: BorderRadius.circular(15.0),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.title?? "(Unnamed task)",
                     style: const TextStyle(
-                      color: Colors.white70,
-                      fontSize: 16.0,
+                      color: Colors.white,
+                      fontSize: 22.0,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
-              ],
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: 10.0,
+                    ),
+                    child: Text(
+                      widget.description?? "Insert task description here",
+                      style: const TextStyle(
+                        color: Colors.white70,
+                        fontSize: 16.0,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
