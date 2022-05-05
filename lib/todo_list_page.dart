@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'todo_item.dart';
 import 'task_page.dart';
-import 'tab_navigation.dart';
 
 class TodoListPage extends StatefulWidget {
-  const TodoListPage({Key? key, required this.onPush,}) : super(key: key);
-
-  final OnPush onPush;
+  const TodoListPage({Key? key,}) : super(key: key);
 
   @override
   _TodoListPageState createState() => _TodoListPageState();
@@ -18,13 +15,17 @@ class _TodoListPageState extends State<TodoListPage> {
   @override
   initState() {
     task = [
-      TodoItem(onPush: widget.onPush,),
+      TodoItem(deleteItem: _deleteItem,),
     ];
   }
 
   void _addItem() {
     setState(() {
-      task.insert(task.length - 1, TodoItem(onPush: widget.onPush,),);
+      if(task.isEmpty) {
+        task.insert(0, TodoItem(deleteItem: _deleteItem,),);
+      } else {
+        task.insert(task.length - 1, TodoItem(deleteItem: _deleteItem,),);
+      }
     });
   }
 
@@ -33,7 +34,6 @@ class _TodoListPageState extends State<TodoListPage> {
       task.removeAt(task.length - 1);
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +49,7 @@ class _TodoListPageState extends State<TodoListPage> {
             ListView.builder(
               itemCount: task.length,
               itemBuilder: (BuildContext context, int index) {
-                return TodoItem(onPush: widget.onPush,);
+                return TodoItem(deleteItem: _deleteItem,);
               }
             ),
             Positioned(

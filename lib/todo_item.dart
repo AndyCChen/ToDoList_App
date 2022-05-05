@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'tab_navigation.dart';
+import 'package:todo/task_page.dart';
 
 class TodoItem extends StatefulWidget {
-  const TodoItem({Key? key, this.title, this.description, required this.onPush}) : super(key: key);
+  const TodoItem({Key? key, this.title, this.description, required this.deleteItem}) : super(key: key);
   final String? title;
   final String? description;
-  final OnPush onPush;
+  final VoidCallback deleteItem;
 
   @override
   State<TodoItem> createState() => _TodoItemState();
@@ -22,12 +22,6 @@ class _TodoItemState extends State<TodoItem> {
       else {
         isDone = true;
       }
-    });
-  }
-
-  void _push() {
-    setState(() {
-      widget.onPush(context);
     });
   }
 
@@ -60,7 +54,16 @@ class _TodoItemState extends State<TodoItem> {
         ),
         Expanded(
           child: GestureDetector(
-            onTap: _push,
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => TaskPage(
+                      deleteItem: widget.deleteItem,
+                    ),
+                  )
+              );
+            },
             child: Container(
               width: double.infinity,
               padding: const EdgeInsets.symmetric(

@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'tab_item.dart';
 import 'todo_list_page.dart';
 
-typedef OnPush = void Function(BuildContext context);
-
 class TabNavigationRoutes {
   static const String root = '/';
   static const String todo = '/todo';
@@ -16,12 +14,21 @@ class TabNavigator extends StatelessWidget {
   final TabItem tabItem;
 
   void _push (BuildContext context) {
-    print('hello');
+    var routeBuilder = _routeBuilder(context);
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>
+            routeBuilder[TabNavigationRoutes.todo]!(context),
+      ),
+    );
   }
 
   Map<String, WidgetBuilder> _routeBuilder(BuildContext context) {
     return {
-      TabNavigationRoutes.root : (context) => TodoListPage(onPush: _push),
+      TabNavigationRoutes.root : (context) => TodoListPage(),
+
     };
   }
 
