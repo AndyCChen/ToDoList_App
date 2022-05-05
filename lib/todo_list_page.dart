@@ -15,7 +15,7 @@ class _TodoListPageState extends State<TodoListPage> {
   @override
   initState() {
     task = [
-      TodoItem(deleteItem: _deleteItem,),
+      TodoItem(deleteItem: _deleteItem),
     ];
   }
 

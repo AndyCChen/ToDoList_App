@@ -4,7 +4,6 @@ import 'todo_list_page.dart';
 
 class TabNavigationRoutes {
   static const String root = '/';
-  static const String todo = '/todo';
 }
 
 class TabNavigator extends StatelessWidget {
@@ -13,22 +12,9 @@ class TabNavigator extends StatelessWidget {
   final GlobalKey<NavigatorState>? navigatorKey;
   final TabItem tabItem;
 
-  void _push (BuildContext context) {
-    var routeBuilder = _routeBuilder(context);
-
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) =>
-            routeBuilder[TabNavigationRoutes.todo]!(context),
-      ),
-    );
-  }
-
   Map<String, WidgetBuilder> _routeBuilder(BuildContext context) {
     return {
-      TabNavigationRoutes.root : (context) => TodoListPage(),
-
+      TabNavigationRoutes.root : (context) => const TodoListPage(),
     };
   }
 

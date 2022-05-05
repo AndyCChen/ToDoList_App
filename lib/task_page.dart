@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 class TaskPage extends StatefulWidget {
-  const TaskPage({Key? key, required this.deleteItem}) : super(key: key);
+  const TaskPage({Key? key, required this.deleteItem, required this.setTitle, required this.setDescription}) : super(key: key);
 
   final VoidCallback deleteItem;
+  final ValueChanged<String> setTitle;
+  final ValueChanged<String> setDescription;
 
   @override
   _TaskPageState createState() => _TaskPageState();
@@ -41,7 +43,7 @@ class _TaskPageState extends State<TaskPage> {
                       ),
                       Expanded(
                         child: TextField(
-                          onSubmitted: (value) {
+                          onChanged: (value) {
                             print("String: $value");
                           },
                           decoration: const InputDecoration(
@@ -113,6 +115,5 @@ class _TaskPageState extends State<TaskPage> {
         ),
       ),
     );
-
   }
 }

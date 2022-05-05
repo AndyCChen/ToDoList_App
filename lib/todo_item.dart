@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:todo/task_page.dart';
 
 class TodoItem extends StatefulWidget {
-  const TodoItem({Key? key, this.title, this.description, required this.deleteItem}) : super(key: key);
+  const TodoItem({Key? key, this.title, this.description, required this.deleteItem,}) : super(key: key);
   final String? title;
   final String? description;
   final VoidCallback deleteItem;
@@ -13,6 +13,13 @@ class TodoItem extends StatefulWidget {
 
 class _TodoItemState extends State<TodoItem> {
   bool isDone = false;
+  late String title, description;
+
+  @override
+  void initState() {
+    title = widget.title!;
+    description = widget.description!;
+  }
 
   void _setIsDone() {
     setState(() {
@@ -22,6 +29,18 @@ class _TodoItemState extends State<TodoItem> {
       else {
         isDone = true;
       }
+    });
+  }
+
+  void _setTitle() {
+    setState(() {
+
+    });
+  }
+
+  void _setDescription() {
+    setState(() {
+
     });
   }
 
