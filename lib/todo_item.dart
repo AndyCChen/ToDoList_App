@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/src/provider.dart';
 import 'package:todo/task_page.dart';
+import 'package:todo/todo_item_provider.dart';
 
 class TodoItem extends StatefulWidget {
   const TodoItem({Key? key, this.title, this.description, required this.deleteItem,}) : super(key: key);
@@ -29,18 +31,6 @@ class _TodoItemState extends State<TodoItem> {
       else {
         isDone = true;
       }
-    });
-  }
-
-  void _setTitle() {
-    setState(() {
-
-    });
-  }
-
-  void _setDescription() {
-    setState(() {
-
     });
   }
 
@@ -100,7 +90,7 @@ class _TodoItemState extends State<TodoItem> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.title?? "(Unnamed task)",
+                    widget.title?? 'context.watch<TodoModel>().title',
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 22.0,
@@ -112,7 +102,7 @@ class _TodoItemState extends State<TodoItem> {
                       top: 10.0,
                     ),
                     child: Text(
-                      widget.description?? "Insert task description here",
+                      widget.description?? 'context.watch<TodoModel>().description',
                       style: const TextStyle(
                         color: Colors.white70,
                         fontSize: 16.0,

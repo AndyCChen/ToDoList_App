@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'todo_item.dart';
 import 'task_page.dart';
+import 'todo_item_provider.dart';
 
 class TodoListPage extends StatefulWidget {
   const TodoListPage({Key? key,}) : super(key: key);
@@ -38,51 +40,54 @@ class _TodoListPageState extends State<TodoListPage> {
   @override
   Widget build(BuildContext context) {
 
-    return Scaffold(
-      body: Container(
-        padding: const EdgeInsets.symmetric(
-          vertical: 0.0,
-          horizontal: 25.0,
-        ),
-        child: Stack(
-          children: [
-            ListView.builder(
-              itemCount: task.length,
-              itemBuilder: (BuildContext context, int index) {
-                return TodoItem(deleteItem: _deleteItem,);
-              }
-            ),
-            Positioned(
-              bottom: 25.0,
-              right: 0.0,
-              child: GestureDetector(
-                onTap: () {
-                  _addItem();
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => TaskPage(
-                          deleteItem: _deleteItem,
-                        ),
-                      )
-                  );
-                },
-                child: Container(
-                  width: 55.0,
-                  height: 55.0,
-                  decoration: BoxDecoration(
-                      color: const Color.fromRGBO(157, 208, 255, 0.76),
-                      borderRadius: BorderRadius.circular(30.0)
-                  ),
-                  child: const Icon(
-                    Icons.add,
-                    color: Colors.white,
-                    size: 30.0,
+    return ChangeNotifierProvider(
+      create: (context) => TodoModel(),
+      child: Scaffold(
+        body: Container(
+          padding: const EdgeInsets.symmetric(
+            vertical: 0.0,
+            horizontal: 25.0,
+          ),
+          child: Stack(
+            children: [
+              ListView.builder(
+                itemCount: task.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return TodoItem(deleteItem: _deleteItem,);
+                }
+              ),
+              Positioned(
+                bottom: 25.0,
+                right: 0.0,
+                child: GestureDetector(
+                  onTap: () {
+                    _addItem();
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => TaskPage(
+                            deleteItem: _deleteItem,
+                          ),
+                        )
+                    );
+                  },
+                  child: Container(
+                    width: 55.0,
+                    height: 55.0,
+                    decoration: BoxDecoration(
+                        color: const Color.fromRGBO(157, 208, 255, 0.76),
+                        borderRadius: BorderRadius.circular(30.0)
+                    ),
+                    child: const Icon(
+                      Icons.add,
+                      color: Colors.white,
+                      size: 30.0,
+                    ),
                   ),
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'todo_item_provider.dart';
 
 class TaskPage extends StatefulWidget {
-  const TaskPage({Key? key, required this.deleteItem, required this.setTitle, required this.setDescription}) : super(key: key);
+  const TaskPage({Key? key, required this.deleteItem,}) : super(key: key);
 
   final VoidCallback deleteItem;
-  final ValueChanged<String> setTitle;
-  final ValueChanged<String> setDescription;
 
   @override
   _TaskPageState createState() => _TaskPageState();
@@ -43,9 +43,7 @@ class _TaskPageState extends State<TaskPage> {
                       ),
                       Expanded(
                         child: TextField(
-                          onChanged: (value) {
-                            print("String: $value");
-                          },
+                          onSubmitted: (value) => print('hi'),
                           decoration: const InputDecoration(
                             hintStyle: TextStyle(
                                 color: Colors.grey,
@@ -65,9 +63,10 @@ class _TaskPageState extends State<TaskPage> {
                     ],
                   ),
                 ),
-                const TextField(
+                TextField(
+                  onSubmitted: (value) => print('hi'),
                   maxLength: 100,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     counterText: '',
                     contentPadding: EdgeInsets.symmetric(
                       horizontal: 20.0,
@@ -79,7 +78,7 @@ class _TaskPageState extends State<TaskPage> {
                     hintText: 'Description',
                     border: InputBorder.none,
                   ),
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 18.0,
                     color: Colors.white,
                   ),
