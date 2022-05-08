@@ -4,8 +4,6 @@ class TodoModel extends ChangeNotifier {
   String title = '(Unnamed Task)';
   String description = 'Insert Description';
 
-
-
   void setTitle(String _title) {
     title = _title;
     notifyListeners();

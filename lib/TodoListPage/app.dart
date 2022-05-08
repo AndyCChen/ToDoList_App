@@ -1,9 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'tab_item.dart';
-import 'navigation_bar.dart';
-import 'tab_navigation.dart';
-import 'login.dart';
+import '../tab_item.dart';
+import 'todo_list_page.dart';
+import '../login.dart';
 
 class App extends StatefulWidget {
   const App({Key? key}) : super(key: key);
@@ -13,28 +12,7 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  var _currentTab = TabItem.today;
-
-  final _navigatorKeys = {
-    TabItem.today: GlobalKey<NavigatorState>(),
-    TabItem.tomorrow: GlobalKey<NavigatorState>(),
-  };
-
-  void _selectTab (TabItem tabItem) {
-    setState(() {
-      _currentTab = tabItem;
-    });
-  }
-
-  Widget _buildNavigator(TabItem tabItem) {
-    return Offstage(
-      offstage: _currentTab != tabItem,
-      child: TabNavigator(
-        navigatorKey: _navigatorKeys[tabItem],
-        tabItem: tabItem,
-      )
-    );
-  }
+  final _currentTab = TabItem.today;
 
   @override
   Widget build(BuildContext context) {
@@ -69,16 +47,7 @@ class _AppState extends State<App> {
           ),
         ),
       ),
-      body: IndexedStack(
-        index: tabIndex[_currentTab],
-        children: <Widget>[
-        _buildNavigator(TabItem.today),
-        _buildNavigator(TabItem.tomorrow),
-      ]),
-      bottomNavigationBar: CustomNavigationBar(
-        currentTab: _currentTab,
-        selectedTab: _selectTab,
-      ),
+      body: const TodoListPage(),
     );
   }
 }

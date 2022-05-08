@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:todo/task_page.dart';
-import 'package:todo/todo_item_provider.dart';
+import 'task_page.dart';
+import '../Provider/todo_item_provider.dart';
 import 'package:provider/provider.dart';
 
 class TodoItem extends StatefulWidget {
-  TodoItem({Key? key, this.title, this.description, required this.deleteItem,}) : super(key: key);
-  String? title;
-  String? description;
+  const TodoItem({Key? key, this.title, this.description, required this.deleteItem,}) : super(key: key);
+  final String? title;
+  final String? description;
   final VoidCallback deleteItem;
 
   @override
@@ -79,7 +79,7 @@ class _TodoItemState extends State<TodoItem> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    Provider.of<TodoModel>(context).title.toString(),
+                    'description',
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 22.0,
@@ -91,7 +91,7 @@ class _TodoItemState extends State<TodoItem> {
                       top: 10.0,
                     ),
                     child: Text(
-                      Provider.of<TodoModel>(context).description.toString(),
+                      'desciptoin',
                       style: const TextStyle(
                         color: Colors.white70,
                         fontSize: 16.0,

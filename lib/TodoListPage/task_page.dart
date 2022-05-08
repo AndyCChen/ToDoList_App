@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'todo_item_provider.dart';
+import '../Provider/todo_item_provider.dart';
 
 class TaskPage extends StatefulWidget {
   const TaskPage({Key? key, required this.deleteItem,}) : super(key: key);
@@ -43,7 +43,7 @@ class _TaskPageState extends State<TaskPage> {
                       ),
                       Expanded(
                         child: TextField(
-                          onSubmitted: (value) => Provider.of<TodoModel>(context, listen: false).setTitle(value),
+                          onSubmitted: (value) => print('$value'),
                           decoration: const InputDecoration(
                             hintStyle: TextStyle(
                                 color: Colors.grey,
@@ -64,7 +64,7 @@ class _TaskPageState extends State<TaskPage> {
                   ),
                 ),
                 TextField(
-                  onSubmitted: (value) => Provider.of<TodoModel>(context, listen: false).setDescription(value),
+                  onSubmitted: (value) => print('$value'),
                   maxLength: 100,
                   decoration: const InputDecoration(
                     counterText: '',

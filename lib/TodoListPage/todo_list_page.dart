@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'todo_item.dart';
 import 'task_page.dart';
-import 'todo_item_provider.dart';
+import '../Provider/todo_item_provider.dart';
 
 class TodoListPage extends StatefulWidget {
   const TodoListPage({Key? key,}) : super(key: key);
