@@ -4,9 +4,10 @@ import '../Provider/todo_item_provider.dart';
 import 'package:provider/provider.dart';
 
 class TodoItem extends StatefulWidget {
-  const TodoItem({Key? key, this.title, this.description, required this.deleteItem,}) : super(key: key);
+  TodoItem({Key? key, this.title, this.description, required this.deleteItem, required this.isDone}) : super(key: key);
   final String? title;
   final String? description;
+  bool isDone;
   final VoidCallback deleteItem;
 
   @override
@@ -14,16 +15,15 @@ class TodoItem extends StatefulWidget {
 }
 
 class _TodoItemState extends State<TodoItem> {
-  bool isDone = false;
   late String title, description;
 
   void _setIsDone() {
     setState(() {
-      if(isDone) {
-        isDone = false;
+      if(widget.isDone) {
+        widget.isDone = false;
       }
       else {
-        isDone = true;
+        widget.isDone = true;
       }
     });
   }
@@ -42,64 +42,58 @@ class _TodoItemState extends State<TodoItem> {
               right: 10.0,
             ),
             decoration: BoxDecoration(
-              border: isDone ? null : Border.all(
+              border: widget.isDone ? null : Border.all(
                 color: const Color.fromRGBO(101, 101, 101, 1.0),
                 width: 2.0,
               ),
-              color: isDone ? const Color.fromRGBO(157, 208, 255, 0.76) : Colors.transparent,
+              color: widget.isDone ? const Color.fromRGBO(157, 208, 255, 0.76) : Colors.transparent,
               borderRadius: BorderRadius.circular(5.0),
             ),
             child: Icon(
               Icons.check,
-              color: isDone ? Colors.white : Colors.transparent,
+              color: widget.isDone ? Colors.white : Colors.transparent,
               size: 20.0,
             ),
           ),
         ),
         Expanded(
-          child: GestureDetector(
-            onTap: () {
-              Navigator.push(context,MaterialPageRoute(
-                builder: (context) => TaskPage(deleteItem: widget.deleteItem,),),);
-            },
-            child: Container(
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(
-                vertical: 25.0,
-                horizontal: 20.0,
-              ),
-              margin: const EdgeInsets.only(
-                bottom: 10.0,
-              ),
-              decoration: BoxDecoration(
-                color: const Color.fromRGBO(101, 101, 101, 1.0),
-                borderRadius: BorderRadius.circular(15.0),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'description',
+          child: Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(
+              vertical: 25.0,
+              horizontal: 20.0,
+            ),
+            margin: const EdgeInsets.only(
+              bottom: 10.0,
+            ),
+            decoration: BoxDecoration(
+              color: const Color.fromRGBO(101, 101, 101, 1.0),
+              borderRadius: BorderRadius.circular(15.0),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  context.watch<TodoModel>().title,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 22.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 10.0,
+                  ),
+                  child: Text(
+                    context.watch<TodoModel>().description,
                     style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 22.0,
-                      fontWeight: FontWeight.bold,
+                      color: Colors.white70,
+                      fontSize: 16.0,
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      top: 10.0,
-                    ),
-                    child: Text(
-                      'desciptoin',
-                      style: const TextStyle(
-                        color: Colors.white70,
-                        fontSize: 16.0,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

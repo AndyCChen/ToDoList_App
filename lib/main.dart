@@ -16,13 +16,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-          fontFamily: 'MedievalSharp',
-          scaffoldBackgroundColor: const Color.fromRGBO(
-              68, 68, 68, 1.0)),
-      home: const LoginScreen(),
+    return ChangeNotifierProvider(
+      create: (context) => TodoModel(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+            fontFamily: 'MedievalSharp',
+            scaffoldBackgroundColor: const Color.fromRGBO(
+                68, 68, 68, 1.0)),
+        home: const LoginScreen(),
+      ),
     );
   }
 }

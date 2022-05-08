@@ -3,9 +3,10 @@ import 'package:provider/provider.dart';
 import '../Provider/todo_item_provider.dart';
 
 class TaskPage extends StatefulWidget {
-  const TaskPage({Key? key, required this.deleteItem,}) : super(key: key);
+  const TaskPage({Key? key, required this.deleteItem, required this.isDelete}) : super(key: key);
 
   final VoidCallback deleteItem;
+  final bool isDelete;
 
   @override
   _TaskPageState createState() => _TaskPageState();
@@ -43,7 +44,7 @@ class _TaskPageState extends State<TaskPage> {
                       ),
                       Expanded(
                         child: TextField(
-                          onSubmitted: (value) => print('$value'),
+                          onChanged: (value) => context.read<TodoModel>().setTitle(value),
                           decoration: const InputDecoration(
                             hintStyle: TextStyle(
                                 color: Colors.grey,
@@ -64,7 +65,7 @@ class _TaskPageState extends State<TaskPage> {
                   ),
                 ),
                 TextField(
-                  onSubmitted: (value) => print('$value'),
+                  onChanged: (value) => context.read<TodoModel>().setDescription(value),
                   maxLength: 100,
                   decoration: const InputDecoration(
                     counterText: '',
@@ -88,24 +89,27 @@ class _TaskPageState extends State<TaskPage> {
             Positioned(
               bottom: 25.0,
               right: 25.0,
-              child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    widget.deleteItem();
-                  });
-                  Navigator.pop(context);
-                },
-                child: Container(
-                  width: 55.0,
-                  height: 55.0,
-                  decoration: BoxDecoration(
-                      color: const Color.fromRGBO(255, 72, 72, 1.0),
-                      borderRadius: BorderRadius.circular(30.0)
-                  ),
-                  child: const Icon(
-                    Icons.delete_forever_rounded,
-                    color: Colors.white,
-                    size: 30.0,
+              child: Visibility(
+                visible: widget.isDelete,
+                child: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      widget.deleteItem();
+                    });
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    width: 55.0,
+                    height: 55.0,
+                    decoration: BoxDecoration(
+                        color: const Color.fromRGBO(255, 72, 72, 1.0),
+                        borderRadius: BorderRadius.circular(30.0)
+                    ),
+                    child: const Icon(
+                      Icons.delete_forever_rounded,
+                      color: Colors.white,
+                      size: 30.0,
+                    ),
                   ),
                 ),
               ),

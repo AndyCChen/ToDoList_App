@@ -17,16 +17,25 @@ class _TodoListPageState extends State<TodoListPage> {
   @override
   initState() {
     task = [
-      TodoItem(deleteItem: _deleteItem),
+      TodoItem(
+        deleteItem: _deleteItem,
+        isDone: false,
+      ),
     ];
   }
 
   void _addItem() {
     setState(() {
       if(task.isEmpty) {
-        task.insert(0, TodoItem(deleteItem: _deleteItem,),);
+        task.insert(0, TodoItem(
+          deleteItem: _deleteItem,
+          isDone: false,
+        ),);
       } else {
-        task.insert(task.length - 1, TodoItem(deleteItem: _deleteItem,),);
+        task.insert(task.length, TodoItem(
+          deleteItem: _deleteItem,
+          isDone: false,
+        ),);
       }
     });
   }
@@ -40,48 +49,60 @@ class _TodoListPageState extends State<TodoListPage> {
   @override
   Widget build(BuildContext context) {
 
-    return ChangeNotifierProvider(
-      create: (context) => TodoModel(),
-      child: Scaffold(
-        body: Container(
-          padding: const EdgeInsets.symmetric(
-            vertical: 0.0,
-            horizontal: 25.0,
-          ),
-          child: Stack(
-            children: [
-              ListView.builder(
-                itemCount: task.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return TodoItem(deleteItem: _deleteItem,);
-                }
-              ),
-              Positioned(
-                bottom: 25.0,
-                right: 0.0,
-                child: GestureDetector(
-                  onTap: () {
-                    _addItem();
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => TaskPage(deleteItem: _deleteItem,),),);
+    return Scaffold(
+      body: Container(
+        padding: const EdgeInsets.symmetric(
+          vertical: 0.0,
+          horizontal: 25.0,
+        ),
+        child: Stack(
+          children: [
+            ListView.builder(
+              itemCount: task.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Dismissible(
+                  key: UniqueKey(),
+                  direction: DismissDirection.endToStart,
+                  onDismissed: (_) {
+                    setState(() {
+                      task.removeAt(index);
+                    });
                   },
-                  child: Container(
-                    width: 55.0,
-                    height: 55.0,
-                    decoration: BoxDecoration(
-                        color: const Color.fromRGBO(157, 208, 255, 0.76),
-                        borderRadius: BorderRadius.circular(30.0)
-                    ),
-                    child: const Icon(
-                      Icons.add,
-                      color: Colors.white,
-                      size: 30.0,
-                    ),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => TaskPage(deleteItem: _deleteItem, isDelete: false,),),);
+                    },
+                    child: task[index],
+                  ),
+                );
+              }
+            ),
+            Positioned(
+              bottom: 25.0,
+              right: 0.0,
+              child: GestureDetector(
+                onTap: () {
+                  _addItem();
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => TaskPage(deleteItem: _deleteItem, isDelete: true,),),);
+                },
+                child: Container(
+                  width: 55.0,
+                  height: 55.0,
+                  decoration: BoxDecoration(
+                      color: const Color.fromRGBO(157, 208, 255, 0.76),
+                      borderRadius: BorderRadius.circular(30.0)
+                  ),
+                  child: const Icon(
+                    Icons.add,
+                    color: Colors.white,
+                    size: 30.0,
                   ),
                 ),
-              )
-            ],
-          ),
+              ),
+            )
+          ],
         ),
       ),
     );
