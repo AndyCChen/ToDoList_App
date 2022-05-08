@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:provider/src/provider.dart';
 import 'package:todo/task_page.dart';
 import 'package:todo/todo_item_provider.dart';
+import 'package:provider/provider.dart';
 
 class TodoItem extends StatefulWidget {
-  const TodoItem({Key? key, this.title, this.description, required this.deleteItem,}) : super(key: key);
-  final String? title;
-  final String? description;
+  TodoItem({Key? key, this.title, this.description, required this.deleteItem,}) : super(key: key);
+  String? title;
+  String? description;
   final VoidCallback deleteItem;
 
   @override
@@ -16,12 +16,6 @@ class TodoItem extends StatefulWidget {
 class _TodoItemState extends State<TodoItem> {
   bool isDone = false;
   late String title, description;
-
-  @override
-  void initState() {
-    title = widget.title!;
-    description = widget.description!;
-  }
 
   void _setIsDone() {
     setState(() {
@@ -36,6 +30,7 @@ class _TodoItemState extends State<TodoItem> {
 
   @override
   Widget build(BuildContext context) {
+
     return Row(
       children: [
         GestureDetector(
@@ -64,14 +59,8 @@ class _TodoItemState extends State<TodoItem> {
         Expanded(
           child: GestureDetector(
             onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => TaskPage(
-                      deleteItem: widget.deleteItem,
-                    ),
-                  )
-              );
+              Navigator.push(context,MaterialPageRoute(
+                builder: (context) => TaskPage(deleteItem: widget.deleteItem,),),);
             },
             child: Container(
               width: double.infinity,
@@ -90,7 +79,7 @@ class _TodoItemState extends State<TodoItem> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.title?? 'context.watch<TodoModel>().title',
+                    Provider.of<TodoModel>(context).title.toString(),
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 22.0,
@@ -102,7 +91,7 @@ class _TodoItemState extends State<TodoItem> {
                       top: 10.0,
                     ),
                     child: Text(
-                      widget.description?? 'context.watch<TodoModel>().description',
+                      Provider.of<TodoModel>(context).description.toString(),
                       style: const TextStyle(
                         color: Colors.white70,
                         fontSize: 16.0,

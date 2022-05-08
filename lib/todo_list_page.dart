@@ -62,14 +62,8 @@ class _TodoListPageState extends State<TodoListPage> {
                 child: GestureDetector(
                   onTap: () {
                     _addItem();
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => TaskPage(
-                            deleteItem: _deleteItem,
-                          ),
-                        )
-                    );
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => TaskPage(deleteItem: _deleteItem,),),);
                   },
                   child: Container(
                     width: 55.0,

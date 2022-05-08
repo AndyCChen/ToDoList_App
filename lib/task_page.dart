@@ -43,7 +43,7 @@ class _TaskPageState extends State<TaskPage> {
                       ),
                       Expanded(
                         child: TextField(
-                          onSubmitted: (value) => print('hi'),
+                          onSubmitted: (value) => Provider.of<TodoModel>(context, listen: false).setTitle(value),
                           decoration: const InputDecoration(
                             hintStyle: TextStyle(
                                 color: Colors.grey,
@@ -64,7 +64,7 @@ class _TaskPageState extends State<TaskPage> {
                   ),
                 ),
                 TextField(
-                  onSubmitted: (value) => print('hi'),
+                  onSubmitted: (value) => Provider.of<TodoModel>(context, listen: false).setDescription(value),
                   maxLength: 100,
                   decoration: const InputDecoration(
                     counterText: '',

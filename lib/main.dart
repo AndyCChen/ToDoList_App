@@ -1,6 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'login.dart';
+import 'package:provider/provider.dart';
+import 'todo_item_provider.dart';
+
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,13 +16,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-          fontFamily: 'MedievalSharp',
-          scaffoldBackgroundColor: const Color.fromRGBO(
-              68, 68, 68, 1.0)),
-      home: const LoginScreen(),
+    return ChangeNotifierProvider(
+      create: (_) => TodoModel(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+            fontFamily: 'MedievalSharp',
+            scaffoldBackgroundColor: const Color.fromRGBO(
+                68, 68, 68, 1.0)),
+        home: const LoginScreen(),
+      ),
     );
   }
 }
