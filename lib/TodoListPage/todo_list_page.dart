@@ -18,8 +18,11 @@ class _TodoListPageState extends State<TodoListPage> {
   initState() {
     task = [
       TodoItem(
+        title: '(Unnamed Task)',
+        description: 'Insert Description',
         deleteItem: _deleteItem,
         isDone: false,
+        selected: false,
       ),
     ];
   }
@@ -28,13 +31,19 @@ class _TodoListPageState extends State<TodoListPage> {
     setState(() {
       if(task.isEmpty) {
         task.insert(0, TodoItem(
+          title: '(Unnamed Task)',
+          description: 'Insert Description',
           deleteItem: _deleteItem,
           isDone: false,
+          selected: true,
         ),);
       } else {
         task.insert(task.length, TodoItem(
+          title: '(Unnamed Task)',
+          description: 'Insert Description',
           deleteItem: _deleteItem,
           isDone: false,
+          selected: true,
         ),);
       }
     });
@@ -68,13 +77,7 @@ class _TodoListPageState extends State<TodoListPage> {
                       task.removeAt(index);
                     });
                   },
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => TaskPage(deleteItem: _deleteItem, isDelete: false,),),);
-                    },
-                    child: task[index],
-                  ),
+                  child: task[index],
                 );
               }
             ),

@@ -4,18 +4,24 @@ import '../Provider/todo_item_provider.dart';
 import 'package:provider/provider.dart';
 
 class TodoItem extends StatefulWidget {
-  TodoItem({Key? key, this.title, this.description, required this.deleteItem, required this.isDone}) : super(key: key);
-  final String? title;
-  final String? description;
-  bool isDone;
+  TodoItem({Key? key, required this.title, required this.description, required this.deleteItem, required this.isDone, this.selected}) : super(key: key);
+  String title;
+  String description;
+  final bool? selected;
   final VoidCallback deleteItem;
+  bool isDone;
 
   @override
   State<TodoItem> createState() => _TodoItemState();
 }
 
 class _TodoItemState extends State<TodoItem> {
-  late String title, description;
+  late bool isSelected;
+
+  @override
+  initState() {
+    isSelected = widget.selected?? context.watch<TodoModel>().isUnselected;
+  }
 
   void _setIsDone() {
     setState(() {
@@ -30,6 +36,11 @@ class _TodoItemState extends State<TodoItem> {
 
   @override
   Widget build(BuildContext context) {
+    print('$isSelected');
+    widget.title = isSelected? context.watch<TodoModel>().title : widget.title;
+    widget.description = isSelected? context.watch<TodoModel>().description : widget.description;
+    isSelected = false;
+
 
     return Row(
       children: [
@@ -57,43 +68,51 @@ class _TodoItemState extends State<TodoItem> {
           ),
         ),
         Expanded(
-          child: Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(
-              vertical: 25.0,
-              horizontal: 20.0,
-            ),
-            margin: const EdgeInsets.only(
-              bottom: 10.0,
-            ),
-            decoration: BoxDecoration(
-              color: const Color.fromRGBO(101, 101, 101, 1.0),
-              borderRadius: BorderRadius.circular(15.0),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  context.watch<TodoModel>().title,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 22.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: 10.0,
-                  ),
-                  child: Text(
-                    context.watch<TodoModel>().description,
+          child: GestureDetector(
+            onTap: () {
+              isSelected = true;
+              print('second isSelected: $isSelected');
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => TaskPage(deleteItem: widget.deleteItem, isDelete: false,),),);
+            },
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(
+                vertical: 25.0,
+                horizontal: 20.0,
+              ),
+              margin: const EdgeInsets.only(
+                bottom: 10.0,
+              ),
+              decoration: BoxDecoration(
+                color: const Color.fromRGBO(101, 101, 101, 1.0),
+                borderRadius: BorderRadius.circular(15.0),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.title,
                     style: const TextStyle(
-                      color: Colors.white70,
-                      fontSize: 16.0,
+                      color: Colors.white,
+                      fontSize: 22.0,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
-              ],
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: 10.0,
+                    ),
+                    child: Text(
+                      widget.description,
+                      style: const TextStyle(
+                        color: Colors.white70,
+                        fontSize: 16.0,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

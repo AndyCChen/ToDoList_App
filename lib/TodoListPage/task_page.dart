@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import '../Provider/todo_item_provider.dart';
 
 class TaskPage extends StatefulWidget {
-  const TaskPage({Key? key, required this.deleteItem, required this.isDelete}) : super(key: key);
+  const TaskPage({Key? key, required this.deleteItem, required this.isDelete,}) : super(key: key);
 
   final VoidCallback deleteItem;
   final bool isDelete;
@@ -44,7 +44,7 @@ class _TaskPageState extends State<TaskPage> {
                       ),
                       Expanded(
                         child: TextField(
-                          onChanged: (value) => context.read<TodoModel>().setTitle(value),
+                          onSubmitted: (value) => context.read<TodoModel>().setTitle(value),
                           decoration: const InputDecoration(
                             hintStyle: TextStyle(
                                 color: Colors.grey,
@@ -65,7 +65,7 @@ class _TaskPageState extends State<TaskPage> {
                   ),
                 ),
                 TextField(
-                  onChanged: (value) => context.read<TodoModel>().setDescription(value),
+                  onSubmitted: (value) => context.read<TodoModel>().setDescription(value),
                   maxLength: 100,
                   decoration: const InputDecoration(
                     counterText: '',
