@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../Provider/todo_item_provider.dart';
 
 class TaskPage extends StatefulWidget {
-  const TaskPage({Key? key, required this.deleteItem, required this.isDelete,}) : super(key: key);
+  const TaskPage({Key? key, required this.deleteItem, required this.isDelete, required this.setTitle, required this.setDescription,}) : super(key: key);
 
+  final ValueChanged<String> setTitle;
+  final ValueChanged<String> setDescription;
   final VoidCallback deleteItem;
   final bool isDelete;
 
@@ -13,6 +13,9 @@ class TaskPage extends StatefulWidget {
 }
 
 class _TaskPageState extends State<TaskPage> {
+  String title = '(Unnamed task)';
+  String description = 'Insert Description';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,6 +33,8 @@ class _TaskPageState extends State<TaskPage> {
                     children: [
                       InkWell(
                         onTap: () {
+                          widget.setTitle(title);
+                          widget.setDescription(description);
                           Navigator.pop(context);
                         },
                         borderRadius: BorderRadius.circular(30.0),
@@ -44,7 +49,7 @@ class _TaskPageState extends State<TaskPage> {
                       ),
                       Expanded(
                         child: TextField(
-                          onSubmitted: (value) => context.read<TodoModel>().setTitle(value),
+                          onChanged: (value) => title = value,
                           decoration: const InputDecoration(
                             hintStyle: TextStyle(
                                 color: Colors.grey,
@@ -65,7 +70,7 @@ class _TaskPageState extends State<TaskPage> {
                   ),
                 ),
                 TextField(
-                  onSubmitted: (value) => context.read<TodoModel>().setDescription(value),
+                  onChanged: (value) => description = value,
                   maxLength: 100,
                   decoration: const InputDecoration(
                     counterText: '',

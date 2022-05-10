@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../tab_item.dart';
+import 'package:intl/intl.dart';
 import 'todo_list_page.dart';
 import '../login.dart';
 
@@ -12,8 +12,6 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  final _currentTab = TabItem.today;
-
   @override
   Widget build(BuildContext context) {
     final auth = FirebaseAuth.instance;
@@ -35,7 +33,7 @@ class _AppState extends State<App> {
           ),
           backgroundColor: const Color.fromRGBO(104, 146, 255, 0.76),
           title: SafeArea(
-            child: Text(tabDate[_currentTab].toString(),
+            child: Text( DateFormat.yMMMd().format(DateTime.now()),
               style: const TextStyle(fontSize: 25.0),
             ),
           ),

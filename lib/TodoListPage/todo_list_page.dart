@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'todo_item.dart';
-import 'task_page.dart';
-import '../Provider/todo_item_provider.dart';
 
 class TodoListPage extends StatefulWidget {
   const TodoListPage({Key? key,}) : super(key: key);
@@ -18,11 +15,8 @@ class _TodoListPageState extends State<TodoListPage> {
   initState() {
     task = [
       TodoItem(
-        title: '(Unnamed Task)',
-        description: 'Insert Description',
         deleteItem: _deleteItem,
         isDone: false,
-        selected: false,
       ),
     ];
   }
@@ -31,19 +25,13 @@ class _TodoListPageState extends State<TodoListPage> {
     setState(() {
       if(task.isEmpty) {
         task.insert(0, TodoItem(
-          title: '(Unnamed Task)',
-          description: 'Insert Description',
           deleteItem: _deleteItem,
           isDone: false,
-          selected: true,
         ),);
       } else {
         task.insert(task.length, TodoItem(
-          title: '(Unnamed Task)',
-          description: 'Insert Description',
           deleteItem: _deleteItem,
           isDone: false,
-          selected: true,
         ),);
       }
     });
@@ -87,8 +75,6 @@ class _TodoListPageState extends State<TodoListPage> {
               child: GestureDetector(
                 onTap: () {
                   _addItem();
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => TaskPage(deleteItem: _deleteItem, isDelete: true,),),);
                 },
                 child: Container(
                   width: 55.0,

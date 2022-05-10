@@ -1,28 +1,18 @@
 import 'package:flutter/material.dart';
 import 'task_page.dart';
-import '../Provider/todo_item_provider.dart';
-import 'package:provider/provider.dart';
 
 class TodoItem extends StatefulWidget {
-  TodoItem({Key? key, required this.title, required this.description, required this.deleteItem, required this.isDone, this.selected}) : super(key: key);
-  String title;
-  String description;
-  final bool? selected;
-  final VoidCallback deleteItem;
+  TodoItem({Key? key, this.title, this.description, required this.deleteItem, required this.isDone,}) : super(key: key);
+  String? title;
+  String? description;
   bool isDone;
+  final VoidCallback deleteItem;
 
   @override
   State<TodoItem> createState() => _TodoItemState();
 }
 
 class _TodoItemState extends State<TodoItem> {
-  late bool isSelected;
-
-  @override
-  initState() {
-    isSelected = widget.selected?? context.watch<TodoModel>().isUnselected;
-  }
-
   void _setIsDone() {
     setState(() {
       if(widget.isDone) {
@@ -34,13 +24,20 @@ class _TodoItemState extends State<TodoItem> {
     });
   }
 
+  void _setTitle(String title) {
+    setState(() {
+      widget.title = title;
+    });
+  }
+
+  void _setDescription(String description) {
+    setState(() {
+      widget.description = description;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    print('$isSelected');
-    widget.title = isSelected? context.watch<TodoModel>().title : widget.title;
-    widget.description = isSelected? context.watch<TodoModel>().description : widget.description;
-    isSelected = false;
-
 
     return Row(
       children: [
@@ -70,10 +67,14 @@ class _TodoItemState extends State<TodoItem> {
         Expanded(
           child: GestureDetector(
             onTap: () {
-              isSelected = true;
-              print('second isSelected: $isSelected');
               Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => TaskPage(deleteItem: widget.deleteItem, isDelete: false,),),);
+                builder: (context) => TaskPage(
+                  deleteItem: widget.deleteItem,
+                  setTitle: _setTitle,
+                  setDescription: _setDescription,
+                  isDelete: false,
+                ),
+              ),);
             },
             child: Container(
               width: double.infinity,
@@ -92,7 +93,7 @@ class _TodoItemState extends State<TodoItem> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.title,
+                    widget.title?? '(Unnamed Task)',
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 22.0,
@@ -104,7 +105,7 @@ class _TodoItemState extends State<TodoItem> {
                       top: 10.0,
                     ),
                     child: Text(
-                      widget.description,
+                      widget.description ?? 'Insert Description',
                       style: const TextStyle(
                         color: Colors.white70,
                         fontSize: 16.0,
