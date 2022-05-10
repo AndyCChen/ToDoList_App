@@ -69,10 +69,11 @@ class _TodoItemState extends State<TodoItem> {
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => TaskPage(
+                  title: widget.title?? '(Unnamed Task)',
+                  description: widget.description ?? 'Insert Description',
                   deleteItem: widget.deleteItem,
                   setTitle: _setTitle,
                   setDescription: _setDescription,
-                  isDelete: false,
                 ),
               ),);
             },
