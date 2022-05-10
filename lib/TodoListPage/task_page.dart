@@ -1,12 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class TaskPage extends StatefulWidget {
-  const TaskPage({Key? key, required this.deleteItem, required this.setTitle, required this.setDescription, required this.title, required this.description,}) : super(key: key);
+  const TaskPage({Key? key, required this.setTitle, required this.setDescription, required this.title, required this.description, required this.timeStamp,}) : super(key: key);
 
   final String title, description;
+  final int timeStamp;
   final ValueChanged<String> setTitle;
   final ValueChanged<String> setDescription;
-  final VoidCallback deleteItem;
 
   @override
   _TaskPageState createState() => _TaskPageState();
@@ -15,6 +17,20 @@ class TaskPage extends StatefulWidget {
 class _TaskPageState extends State<TaskPage> {
   late String title, description;
   late TextEditingController controller1, controller2;
+
+  void addData(String title, String description) {
+    final todo = <String, dynamic>{
+      'timestamp' : widget.timeStamp,
+      'title' : title,
+      'description' : description,
+    };
+
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final db = FirebaseFirestore.instance;
+
+    User user = auth.currentUser!;
+    db.collection('users').doc(user.uid).collection('todoItems').doc(widget.timeStamp.toString()).set(todo);
+  }
 
   @override
   void initState() {
@@ -49,6 +65,7 @@ class _TaskPageState extends State<TaskPage> {
                     onTap: () {
                       widget.setTitle(title);
                       widget.setDescription(description);
+                      addData(title, description);
                       Navigator.pop(context);
                     },
                     borderRadius: BorderRadius.circular(30.0),
@@ -85,21 +102,10 @@ class _TaskPageState extends State<TaskPage> {
               ),
             ),
             Container(
-              padding: EdgeInsets.symmetric(
-                vertical: 12.0,
-              ),
-              margin: EdgeInsets.symmetric(
-                horizontal: 18.0,
-              ),
-              decoration: BoxDecoration(
-                color: const Color.fromRGBO(101, 101, 101, 1.0),
-                borderRadius: BorderRadius.circular(15.0),
-              ),
               child: TextField(
                 controller: controller2,
                 onChanged: (value) => description = value,
-                maxLength: 300,
-                maxLines: 8,
+                maxLines: null,
                 decoration: const InputDecoration(
                   contentPadding: EdgeInsets.symmetric(
                     horizontal: 20.0,
@@ -117,7 +123,6 @@ class _TaskPageState extends State<TaskPage> {
                 ),
               ),
             ),
-
           ],
         ),
       ),

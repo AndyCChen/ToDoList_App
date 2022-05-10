@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'task_page.dart';
 
 class TodoItem extends StatefulWidget {
-  TodoItem({Key? key, this.title, this.description, required this.deleteItem, required this.isDone,}) : super(key: key);
+  TodoItem({Key? key, this.title, this.description, required this.isDone, required this.index, required this.timeStamp,}) : super(key: key);
   String? title;
   String? description;
   bool isDone;
-  final VoidCallback deleteItem;
+  final int timeStamp;
+  final int index;
 
   @override
   State<TodoItem> createState() => _TodoItemState();
@@ -71,7 +72,7 @@ class _TodoItemState extends State<TodoItem> {
                 builder: (context) => TaskPage(
                   title: widget.title?? '(Unnamed Task)',
                   description: widget.description ?? 'Insert Description',
-                  deleteItem: widget.deleteItem,
+                  timeStamp: widget.timeStamp,
                   setTitle: _setTitle,
                   setDescription: _setDescription,
                 ),
