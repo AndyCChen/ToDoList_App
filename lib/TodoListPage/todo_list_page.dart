@@ -11,11 +11,12 @@ class TodoListPage extends StatefulWidget {
 }
 
 class _TodoListPageState extends State<TodoListPage> {
+  bool isLoading = true;
   late List<int> timeStampList;
   late List<Widget> task;
 
   @override
-  initState() {
+  initState(){
     super.initState();
     final timeStamp = DateTime.now().millisecondsSinceEpoch;
 
@@ -58,6 +59,10 @@ class _TodoListPageState extends State<TodoListPage> {
         })
       });
     }
+
+    setState(() {
+      isLoading = false;
+    });
   }
 
   void _addItem() {
@@ -110,6 +115,7 @@ class _TodoListPageState extends State<TodoListPage> {
         ),
         child: Stack(
           children: [
+            isLoading? Center(child: CircularProgressIndicator()) :
             ListView.builder(
               itemCount: task.length,
               itemBuilder: (BuildContext context, int index) {
