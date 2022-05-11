@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'task_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class TodoItem extends StatefulWidget {
-  TodoItem({Key? key, this.title, this.description, required this.isDone, required this.index, required this.timeStamp,}) : super(key: key);
+  TodoItem({Key? key, this.title, this.description, required this.isDone, required this.timeStamp,}) : super(key: key);
   String? title;
   String? description;
   bool isDone;
   final int timeStamp;
-  final int index;
 
   @override
   State<TodoItem> createState() => _TodoItemState();
@@ -23,6 +24,15 @@ class _TodoItemState extends State<TodoItem> {
         widget.isDone = true;
       }
     });
+
+    final User user = FirebaseAuth.instance.currentUser!;
+    final db = FirebaseFirestore.instance;
+
+    final isDone = <String, dynamic>{
+      'isDone' : widget.isDone,
+    };
+
+    db.collection('users').doc(user.uid).collection('todoItems').doc(widget.timeStamp.toString()).set(isDone, SetOptions(merge: true));
   }
 
   void _setTitle(String title) {
@@ -70,6 +80,7 @@ class _TodoItemState extends State<TodoItem> {
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => TaskPage(
+                  isDone: widget.isDone,
                   title: widget.title?? '(Unnamed Task)',
                   description: widget.description ?? 'Insert Description',
                   timeStamp: widget.timeStamp,

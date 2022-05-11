@@ -3,9 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class TaskPage extends StatefulWidget {
-  const TaskPage({Key? key, required this.setTitle, required this.setDescription, required this.title, required this.description, required this.timeStamp,}) : super(key: key);
+  const TaskPage({Key? key, required this.setTitle, required this.setDescription, required this.title, required this.description, required this.timeStamp, required this.isDone,}) : super(key: key);
 
   final String title, description;
+  final bool isDone;
   final int timeStamp;
   final ValueChanged<String> setTitle;
   final ValueChanged<String> setDescription;
@@ -19,16 +20,18 @@ class _TaskPageState extends State<TaskPage> {
   late TextEditingController controller1, controller2;
 
   void addData(String title, String description) {
+
     final todo = <String, dynamic>{
       'timestamp' : widget.timeStamp,
       'title' : title,
       'description' : description,
+      'isDone' : widget.isDone,
     };
 
     final FirebaseAuth auth = FirebaseAuth.instance;
     final db = FirebaseFirestore.instance;
 
-    User user = auth.currentUser!;
+    final User user = auth.currentUser!;
     db.collection('users').doc(user.uid).collection('todoItems').doc(widget.timeStamp.toString()).set(todo);
   }
 

@@ -16,12 +16,12 @@ class _TodoListPageState extends State<TodoListPage> {
 
   @override
   initState() {
+    super.initState();
     final timeStamp = DateTime.now().millisecondsSinceEpoch;
 
     task = [
       TodoItem(
         isDone: false,
-        index: 0,
         timeStamp: timeStamp,
       ),
     ];
@@ -29,6 +29,35 @@ class _TodoListPageState extends State<TodoListPage> {
     timeStampList = [
       timeStamp,
     ];
+
+    checkIfTodoListExists();
+  }
+
+  void checkIfTodoListExists() async {
+    final User user = FirebaseAuth.instance.currentUser!;
+    final collectionRef = FirebaseFirestore.instance.collection('users').doc(
+        user.uid).collection('todoItems');
+    var doc = await collectionRef.limit(1).get();
+
+    if (doc.size != 0) {
+      task.clear();
+      timeStampList.clear();
+
+      await collectionRef.orderBy('timestamp', descending: false).get().then((QuerySnapshot querySnapshot) => {
+        querySnapshot.docs.forEach((doc) {
+          setState(() {
+            task.add(TodoItem(
+                title: doc['title'],
+                description: doc['description'],
+                isDone: doc['isDone'],
+                timeStamp: doc['timestamp'])
+            );
+
+            timeStampList.add(doc['timestamp']);
+          });
+        })
+      });
+    }
   }
 
   void _addItem() {
@@ -38,7 +67,6 @@ class _TodoListPageState extends State<TodoListPage> {
 
         task.insert(0, TodoItem(
           isDone: false,
-          index: 0,
           timeStamp: timeStamp,
         ),);
 
@@ -48,7 +76,6 @@ class _TodoListPageState extends State<TodoListPage> {
 
         task.insert(task.length, TodoItem(
           isDone: false,
-          index: task.length,
           timeStamp: timeStamp,
         ),);
 
