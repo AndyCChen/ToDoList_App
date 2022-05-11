@@ -1,7 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'login.dart';
+import 'TodoListPage/app.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,24 +13,26 @@ void main() async{
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  void checkLoginStatus() {
+  Widget checkLoginStatus() {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
-      print('logged');
+      return App();
+
     } else {
-      print('not logged in');
+      return LoginScreen();
     }
   }
 
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
           fontFamily: 'MedievalSharp',
           scaffoldBackgroundColor: const Color.fromRGBO(
               68, 68, 68, 1.0)),
-      home: const LoginScreen(),
+      home: checkLoginStatus(),
     );
   }
 }
