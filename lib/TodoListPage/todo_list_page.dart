@@ -104,6 +104,25 @@ class _TodoListPageState extends State<TodoListPage> {
     });
   }
 
+  void _emptyTodoList() {
+    setState(() {
+      timeStampList.clear();
+      task.clear();
+    });
+
+    _emptyTodoListOnDataBase();
+  }
+
+  void _emptyTodoListOnDataBase() async{
+    final user = FirebaseAuth.instance.currentUser!;
+    final todoCollection = FirebaseFirestore.instance.collection('users').doc(user.uid).collection('todoItems');
+    final snapShot = await todoCollection.get();
+
+    for(var doc in snapShot.docs) {
+      await doc.reference.delete();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -120,6 +139,26 @@ class _TodoListPageState extends State<TodoListPage> {
               itemCount: task.length,
               itemBuilder: (BuildContext context, int index) {
                 return Dismissible(
+                  background: Container(
+                    alignment: Alignment.centerRight,
+                    margin: EdgeInsets.only(
+                      bottom: 10.0,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.redAccent,
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    child: Container(
+                      margin: EdgeInsets.only(
+                        right: 12.0,
+                      ),
+                      child: Icon(
+                        Icons.delete_forever,
+                        color: Colors.white,
+                        size: 40.0,
+                      ),
+                    ),
+                  ),
                   key: UniqueKey(),
                   direction: DismissDirection.endToStart,
                   onDismissed: (_) {
@@ -153,7 +192,46 @@ class _TodoListPageState extends State<TodoListPage> {
                   ),
                 ),
               ),
-            )
+            ),
+            Positioned(
+              bottom: 25.0,
+              left: 0.0,
+              child: GestureDetector(
+                onTap: () => showDialog<String>(
+                  context: context,
+                  builder: (BuildContext context) => AlertDialog(
+                    backgroundColor: Color.fromRGBO(101, 101, 101, 1.0),
+                    title: Text('Delete All Task Items?', style: TextStyle(color: Colors.white),),
+                    actions: <Widget>[
+                      TextButton(
+                          onPressed: () => {Navigator.pop(context)},
+                          child: Text('Cancel', style: TextStyle(color: Colors.white),),
+                      ),
+                      TextButton(
+                        onPressed: () => {
+                          Navigator.pop(context),
+                          _emptyTodoList(),
+                        },
+                        child: Text('Confirm', style: TextStyle(color: Colors.white),),
+                      ),
+                    ],
+                  ),
+                ),
+                child: Container(
+                  width: 55.0,
+                  height: 55.0,
+                  decoration: BoxDecoration(
+                      color: Colors.redAccent,
+                      borderRadius: BorderRadius.circular(15.0)
+                  ),
+                  child: const Icon(
+                    Icons.clear,
+                    color: Colors.white,
+                    size: 30.0,
+                  ),
+                ),
+              )
+            ),
           ],
         ),
       ),
