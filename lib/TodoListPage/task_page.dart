@@ -3,7 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class TaskPage extends StatefulWidget {
-  const TaskPage({Key? key, required this.setTitle, required this.setDescription, required this.title, required this.description, required this.timeStamp, required this.isDone,}) : super(key: key);
+  const TaskPage({Key? key,
+    required this.setTitle, required this.setDescription,
+    required this.title, required this.description,
+    required this.timeStamp, required this.isDone,}) : super(key: key);
 
   final String title, description;
   final bool isDone;
