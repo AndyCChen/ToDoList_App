@@ -107,8 +107,9 @@ class _TodoItemState extends State<TodoItem> {
                 children: [
                   Text(
                     widget.title?? '(Unnamed Task)',
-                    style: const TextStyle(
-                      color: Colors.white,
+                    style: TextStyle(
+                      decoration: widget.isDone? TextDecoration.lineThrough : TextDecoration.none,
+                      color: widget.isDone? Colors.grey : Colors.white,
                       fontSize: 22.0,
                       fontWeight: FontWeight.bold,
                     ),
@@ -119,8 +120,9 @@ class _TodoItemState extends State<TodoItem> {
                     ),
                     child: Text(
                       widget.description ?? 'Insert Description',
-                      style: const TextStyle(
-                        color: Colors.white70,
+                      style: TextStyle(
+                        decoration: widget.isDone? TextDecoration.lineThrough : TextDecoration.none,
+                        color: widget.isDone? Colors.grey : Colors.white,
                         fontSize: 16.0,
                       ),
                     ),

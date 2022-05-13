@@ -11,6 +11,7 @@ class TodoListPage extends StatefulWidget {
 }
 
 class _TodoListPageState extends State<TodoListPage> {
+  final ScrollController _myController = ScrollController();
   bool isLoading = true;
   late List<int> timeStampList;
   late List<Widget> task;
@@ -123,6 +124,7 @@ class _TodoListPageState extends State<TodoListPage> {
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
 
@@ -136,6 +138,7 @@ class _TodoListPageState extends State<TodoListPage> {
           children: [
             isLoading? Center(child: CircularProgressIndicator()) :
             ListView.builder(
+              controller: _myController,
               itemCount: task.length,
               itemBuilder: (BuildContext context, int index) {
                 return Dismissible(
@@ -177,6 +180,11 @@ class _TodoListPageState extends State<TodoListPage> {
               child: GestureDetector(
                 onTap: () {
                   _addItem();
+                  _myController.animateTo(
+                    _myController.position.maxScrollExtent *  2,
+                    duration: Duration(seconds: 3),
+                    curve: Curves.ease,
+                  );
                 },
                 child: Container(
                   width: 55.0,
