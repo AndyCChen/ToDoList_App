@@ -1,6 +1,6 @@
 # TodoIt
 
-A simple task list app made with flutter.
+A task list app made with flutter and google firebase.
 
 ## Getting Started
 
